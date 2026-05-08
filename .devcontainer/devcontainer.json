@@ -1,0 +1,12 @@
+{
+  "name": "Flutter Web Dev Environment",
+  "dockerFile": "Dockerfile",
+  "remoteUser": "root",
+  "portsAttributes": {
+    "5000": {
+      "label": "Flutter Web",
+      "onForward": "Notify"
+    }
+  },
+  "workspaceTrusted": true
+}
