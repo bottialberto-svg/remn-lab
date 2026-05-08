@@ -86,82 +86,130 @@ class _MobilePhoneFrameState extends State<MobilePhoneFrame> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.grey[400],
       body: Center(
-        child: GestureDetector(
-          onTap: () {
-            setState(() {
-              _isBlack = !_isBlack;
-            });
-          },
+        child: _buildPhone(),
+      ),
+    );
+  }
+
+  Widget _buildPhone() {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _isBlack = !_isBlack;
+        });
+      },
+      child: Container(
+        width: 300,
+        height: 620,
+        decoration: BoxDecoration(
+          color: _isBlack ? Colors.grey[900] : Colors.grey[800],
+          borderRadius: BorderRadius.circular(45),
+          border: Border.all(
+            color: Colors.grey[700]!,
+            width: 3,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black54,
+              blurRadius: 25,
+              offset: const Offset(15, 15),
+            ),
+          ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8),
           child: Container(
-            width: 280,
-            height: 580,
             decoration: BoxDecoration(
               color: _isBlack ? Colors.black : Colors.white,
-              borderRadius: BorderRadius.circular(40),
+              borderRadius: BorderRadius.circular(32),
               border: Border.all(
-                color: _isBlack ? Colors.white54 : Colors.black87,
-                width: 4,
+                color: Colors.grey[400]!,
+                width: 2,
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black45,
-                  blurRadius: 20,
-                  offset: const Offset(10, 10),
-                ),
-              ],
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Phone speaker
-                Container(
-                  width: 60,
-                  height: 8,
-                  decoration: BoxDecoration(
-                    color: _isBlack ? Colors.white54 : Colors.black54,
-                    borderRadius: BorderRadius.circular(4),
+                // Top bar with speaker and camera
+                Padding(
+                  padding: const EdgeInsets.only(top: 12, bottom: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // Camera
+                      Container(
+                        width: 10,
+                        height: 10,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[700],
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      const SizedBox(width: 20),
+                      // Speaker
+                      Container(
+                        width: 60,
+                        height: 6,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[400],
+                          borderRadius: BorderRadius.circular(3),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 20),
-                // Title
-                Text(
-                  'Messages',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: _isBlack ? Colors.white : Colors.deepPurple,
+                // Screen title
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    'Messages',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: _isBlack ? Colors.greenAccent : Colors.deepPurple,
+                    ),
                   ),
                 ),
-                const SizedBox(height: 20),
-                // Message display
+                const SizedBox(height: 30),
+                // Message display (screen area)
                 Expanded(
                   child: _buildMessageDisplay(),
                 ),
                 // Next button
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.all(20),
                   child: SizedBox(
                     width: double.infinity,
+                    height: 45,
                     child: ElevatedButton(
                       onPressed: _nextMessage,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: _isBlack ? Colors.white : Colors.deepPurple,
+                        backgroundColor: _isBlack ? Colors.greenAccent : Colors.deepPurple,
                         foregroundColor: _isBlack ? Colors.black : Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
                       ),
-                      child: const Text('next'),
+                      child: const Text(
+                        'next',
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
-                // Phone icon
-                Icon(
-                  Icons.phone_iphone,
-                  size: 40,
-                  color: _isBlack ? Colors.white : Colors.deepPurple,
+                // Home indicator
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Container(
+                    width: 100,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[400],
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
                 ),
-                const SizedBox(height: 20),
               ],
             ),
           ),
@@ -174,7 +222,7 @@ class _MobilePhoneFrameState extends State<MobilePhoneFrame> {
     if (_loading) {
       return Center(
         child: CircularProgressIndicator(
-          color: _isBlack ? Colors.white : Colors.deepPurple,
+          color: _isBlack ? Colors.greenAccent : Colors.deepPurple,
         ),
       );
     }
@@ -182,12 +230,12 @@ class _MobilePhoneFrameState extends State<MobilePhoneFrame> {
     if (_error != null) {
       return Center(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(16),
           child: Text(
             _error!,
             style: TextStyle(
               color: _isBlack ? Colors.red[300] : Colors.red,
-              fontSize: 12,
+              fontSize: 14,
             ),
             textAlign: TextAlign.center,
           ),
@@ -200,8 +248,8 @@ class _MobilePhoneFrameState extends State<MobilePhoneFrame> {
         child: Text(
           'No messages',
           style: TextStyle(
-            color: _isBlack ? Colors.white54 : Colors.black54,
-            fontSize: 14,
+            color: _isBlack ? Colors.grey[500] : Colors.grey[500],
+            fontSize: 16,
           ),
         ),
       );
@@ -209,12 +257,12 @@ class _MobilePhoneFrameState extends State<MobilePhoneFrame> {
 
     final message = _messages[_currentIndex];
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Text(
         message['content'] ?? '',
         style: TextStyle(
           color: _isBlack ? Colors.white : Colors.black87,
-          fontSize: 18,
+          fontSize: 20,
         ),
         textAlign: TextAlign.center,
       ),
