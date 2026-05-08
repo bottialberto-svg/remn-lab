@@ -28,8 +28,8 @@ Flutter Web app connected to Supabase Edge Function backend.
 
 3. **Deploy Edge Function:**
    - Supabase Dashboard → Edge Functions → New
-   - Name: `messages`, Runtime: Python
-   - Copy code from `supabase/functions/messages/index.py`
+   - Name: `messages`
+   - Copy code from `supabase/functions/messages/index.ts`
 
 4. **Set secrets:**
    ```bash
