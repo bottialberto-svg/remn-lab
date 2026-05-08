@@ -32,10 +32,11 @@ class MobilePhoneFrame extends StatefulWidget {
 class _MobilePhoneFrameState extends State<MobilePhoneFrame> {
   bool _isBlack = false;
   List<dynamic> _messages = [];
+  int _currentIndex = 0;
   bool _loading = true;
   String? _error;
 
-  // Configurable API URL - set via environment or change here
+  // Configurable API URL
   static const String _apiUrl = 'https://YOUR_PROJECT.supabase.co/functions/v1/messages';
   static const String _apiKey = 'YOUR_ANON_KEY';
 
@@ -73,6 +74,13 @@ class _MobilePhoneFrameState extends State<MobilePhoneFrame> {
         _loading = false;
       });
     }
+  }
+
+  void _nextMessage() {
+    if (_messages.isEmpty) return;
+    setState(() {
+      _currentIndex = (_currentIndex + 1) % _messages.length;
+    });
   }
 
   @override
@@ -117,25 +125,40 @@ class _MobilePhoneFrameState extends State<MobilePhoneFrame> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                // Hello word text (clickable)
+                // Title
                 Text(
-                  'hello word',
+                  'Messages',
                   style: TextStyle(
-                    fontSize: 24,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: _isBlack ? Colors.white : Colors.deepPurple,
                   ),
                 ),
-                const SizedBox(height: 10),
-                // Messages list
+                const SizedBox(height: 20),
+                // Message display
                 Expanded(
-                  child: _buildMessagesList(),
+                  child: _buildMessageDisplay(),
                 ),
-                const SizedBox(height: 10),
+                // Next button
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: _nextMessage,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: _isBlack ? Colors.white : Colors.deepPurple,
+                        foregroundColor: _isBlack ? Colors.black : Colors.white,
+                      ),
+                      child: const Text('next'),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
                 // Phone icon
                 Icon(
                   Icons.phone_iphone,
-                  size: 50,
+                  size: 40,
                   color: _isBlack ? Colors.white : Colors.deepPurple,
                 ),
                 const SizedBox(height: 20),
@@ -147,7 +170,7 @@ class _MobilePhoneFrameState extends State<MobilePhoneFrame> {
     );
   }
 
-  Widget _buildMessagesList() {
+  Widget _buildMessageDisplay() {
     if (_loading) {
       return Center(
         child: CircularProgressIndicator(
@@ -178,30 +201,23 @@ class _MobilePhoneFrameState extends State<MobilePhoneFrame> {
           'No messages',
           style: TextStyle(
             color: _isBlack ? Colors.white54 : Colors.black54,
-            fontSize: 12,
+            fontSize: 14,
           ),
         ),
       );
     }
 
-    return ListView.builder(
-      shrinkWrap: true,
+    final message = _messages[_currentIndex];
+    return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      itemCount: _messages.length,
-      itemBuilder: (context, index) {
-        final message = _messages[index];
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4),
-          child: Text(
-            message['content'] ?? '',
-            style: TextStyle(
-              color: _isBlack ? Colors.white : Colors.black87,
-              fontSize: 14,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        );
-      },
+      child: Text(
+        message['content'] ?? '',
+        style: TextStyle(
+          color: _isBlack ? Colors.white : Colors.black87,
+          fontSize: 18,
+        ),
+        textAlign: TextAlign.center,
+      ),
     );
   }
 }
