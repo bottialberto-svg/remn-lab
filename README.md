@@ -50,7 +50,25 @@ The correct path may be one of:
 - `/workspace/project/remn-lab/mobile_app` (absolute path)
 - `../mobile_app` (relative from current folder)
 
-Replace `cd mobile_app` with the correct path that contains `lib/main.dart`.
+If you can't use the web device or Linux desktop, you can still build the web app and serve it manually:
+
+### Alternative: Build Web and Serve Manually
+
+1. **Build the web app:**
+   ```bash
+   flutter build web --release
+   ```
+
+2. **Serve with Python:**
+   ```bash
+   cd build/web
+   python3 -m http.server 8080
+   ```
+
+3. **Open in browser:**
+   - Click the "Ports" tab in Codespaces
+   - Forward port 8080
+   - Click the link to open in browser
 
 ### Preview in Browser (No Local Installation)
 
