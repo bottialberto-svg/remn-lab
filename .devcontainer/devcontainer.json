@@ -5,7 +5,7 @@
     "ghcr.io/devcontainers/features/node:1": {}
   },
   "postCreateCommand": "curl -sL https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.24.5-stable.tar.xz | tar xJ && sudo mv flutter /opt/flutter && sudo ln -s /opt/flutter/bin/flutter /usr/local/bin/flutter && sudo ln -s /opt/flutter/bin/dart /usr/local/bin/dart",
-  "remoteUser": "ubuntu",
+  "remoteUser": "root",
   "portsAttributes": {
     "5000": {
       "label": "Flutter Web",
