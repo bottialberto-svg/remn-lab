@@ -126,4 +126,129 @@ When the Codespace starts, you'll see a message like "Setting up Flutter..." - t
 ### Useful Links
 
 - [Flutter Web Documentation](https://docs.flutter.dev/web)
+---
+
+## Supabase Edge Functions
+
+This project includes a Supabase Edge Function that provides a REST API for messages.
+
+### Prerequisites
+
+- A Supabase project (supabase.com)
+- Supabase CLI installed (optional for local testing)
+
+### Database Setup
+
+Create the `messages` table in your Supabase dashboard:
+
+```sql
+CREATE TABLE messages (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Insert sample data
+INSERT INTO messages (content) VALUES ('Hello from Supabase!');
+```
+
+### Deploy the Edge Function
+
+**Option 1: Via Supabase CLI**
+
+```bash
+# Link to your Supabase project
+supabase link --project-ref YOUR_PROJECT_REF
+
+# Deploy the function
+supabase functions deploy messages
+
+# Set environment variables
+supabase secrets set SUPABASE_URL=https://YOUR_PROJECT.supabase.co
+supabase secrets set SUPABASE_SERVICE_KEY=YOUR_SERVICE_KEY
+```
+
+**Option 2: Via Dashboard**
+
+1. Go to Supabase Dashboard → Edge Functions
+2. Click "New Edge Function"
+3. Name it `messages`
+4. Copy the code from `supabase/functions/messages/index.py`
+5. Deploy
+
+**Option 3: Via GitHub Actions**
+
+Add to `.github/workflows/deploy-functions.yml`:
+
+```yaml
+name: Deploy Edge Functions
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - supabase/functions/**
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/functions/deploy@v1
+        with:
+          project-ref: ${{ secrets.SUPABASE_PROJECT_REF }}
+        env:
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+```
+
+### Test the Function
+
+**Via Browser:**
+
+```
+https://YOUR_PROJECT.supabase.co/functions/v1/messages
+```
+
+**Via curl:**
+
+```bash
+curl -X GET "https://YOUR_PROJECT.supabase.co/functions/v1/messages" \
+  -H "Authorization: Bearer YOUR_ANON_KEY" \
+  -H "apikey: YOUR_ANON_KEY"
+```
+
+**Expected Response:**
+
+```json
+{
+  "messages": [
+    {"id": 1, "content": "Hello from Supabase!", "created_at": "2025-01-01T00:00:00Z"}
+  ],
+  "count": 1
+}
+```
+
+### Configuration
+
+The function uses environment variables (not hardcoded keys):
+
+- `SUPABASE_URL` - Your Supabase project URL
+- `SUPABASE_SERVICE_KEY` - The service role key for admin access
+
+These are set via Supabase secrets to keep credentials secure.
+
+### File Structure
+
+```
+supabase/
+└── functions/
+    └── messages/
+        ├── index.py      # Edge Function code
+        └── config.json  # Function configuration
+```
+
+### Useful Links
+
+- [Supabase Edge Functions Docs](https://supabase.com/docs/guides/functions)
+- [Supabase Python SDK](https://supabase.com/docs/reference/python/start)
 - [GitHub Codespaces Documentation](https://docs.github.com/en/codespaces)
