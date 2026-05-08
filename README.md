@@ -258,3 +258,41 @@ supabase/
 - [Supabase Edge Functions Docs](https://supabase.com/docs/guides/functions)
 - [Supabase Python SDK](https://supabase.com/docs/reference/python/start)
 - [GitHub Codespaces Documentation](https://docs.github.com/en/codespaces)
+
+## Flutter + Supabase Configuration
+
+### Configure API Connection
+
+1. **Get your Supabase credentials:**
+   - Go to Supabase Dashboard → Project Settings → API
+   - Copy the `Project URL` (anon key)
+
+2. **Edit the Flutter app:**
+   
+   Open `mobile_app/lib/main.dart` and replace the placeholders:
+
+   ```dart
+   static const String _apiUrl = 'https://YOUR_PROJECT.supabase.co/functions/v1/messages';
+   static const String _apiKey = 'YOUR_ANON_KEY';
+   ```
+
+3. **Set up the database:**
+
+   In Supabase SQL Editor:
+   ```sql
+   CREATE TABLE messages (
+     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+     content TEXT NOT NULL,
+     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+   );
+
+   INSERT INTO messages (content) VALUES ('Hello from Supabase!');
+   ```
+
+4. **Run the app:**
+
+   ```bash
+   cd mobile_app
+   flutter pub get
+   flutter run -d web-server --web-port 8080
+   ```
