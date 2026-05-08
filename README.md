@@ -8,8 +8,10 @@ The app is located in the `mobile_app` folder.
 
 ### Prerequisites
 
-- GitHub Codespaces (or any Linux environment with Flutter SDK)
+- GitHub Codespaces (automatic Flutter installation via devcontainer)
 - No local installation needed - everything runs in the browser
+
+> **Note:** Flutter SDK is automatically installed when the Codespace starts, thanks to the `.devcontainer` configuration. The first run may take a minute while Flutter downloads.
 
 ### Running in GitHub Codespaces
 
@@ -84,6 +86,18 @@ mobile_app/
 │   └── index.html      # HTML entry point
 └── pubspec.yaml        # Dependencies
 ```
+
+### DevContainer Configuration
+
+This project includes a `.devcontainer/devcontainer.json` file that automatically:
+
+- Installs Flutter SDK when the Codespace starts
+- Makes `flutter` command available globally
+- Configures port 5000 for the web preview
+
+The Flutter SDK is downloaded from Google's official release archive and installed to `/opt/flutter`.
+
+When the Codespace starts, you'll see a message like "Setting up Flutter..." - this is normal and may take 1-2 minutes on first run.
 
 ### Useful Links
 
