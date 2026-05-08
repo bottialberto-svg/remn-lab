@@ -28,22 +28,17 @@ The app is located in the `mobile_app` folder.
 
 3. **Run the web app:**
    
-   Navigate to the `mobile_app` directory (this is required - don't run from root!):
+   Navigate to the `mobile_app` directory (required!):
    ```bash
-   cd mobile_app
+   cd /workspaces/remn-lab/mobile_app
    ```
    
    Run the app as a web server:
    ```bash
-   flutter run -d web
-   ```
-   
-   > **Important:** Always run `flutter run` from inside the `mobile_app` folder. Running from the root project directory will fail because Flutter can't find the main.dart file.
-   
-   Or use a specific web port:
-   ```bash
    flutter run -d web --web-port 8080
    ```
+   
+   > **Important:** Always run `flutter run` from `/workspaces/remn-lab/mobile_app` (the absolute path may be required in some environments).
 
 ### Preview in Browser (No Local Installation)
 
