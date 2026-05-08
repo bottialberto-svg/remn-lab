@@ -50,20 +50,25 @@ The correct path may be one of:
 - `/workspace/project/remn-lab/mobile_app` (absolute path)
 - `../mobile_app` (relative from current folder)
 
-If `flutter run -d web` fails with "No supported devices found":
+If you can't use the web device or Linux desktop, you can still build the web app and serve it manually:
 
-This means Flutter couldn't enable Chrome for web. Try running with Linux desktop instead:
+### Alternative: Build Web and Serve Manually
 
-```bash
-flutter run -d linux
-```
+1. **Build the web app:**
+   ```bash
+   flutter build web --release
+   ```
 
-Or if Chrome is installed, enable web manually:
+2. **Serve with Python:**
+   ```bash
+   cd build/web
+   python3 -m http.server 8080
+   ```
 
-```bash
-flutter config --enable-web
-flutter run -d chrome
-```
+3. **Open in browser:**
+   - Click the "Ports" tab in Codespaces
+   - Forward port 8080
+   - Click the link to open in browser
 
 ### Preview in Browser (No Local Installation)
 
