@@ -50,7 +50,20 @@ The correct path may be one of:
 - `/workspace/project/remn-lab/mobile_app` (absolute path)
 - `../mobile_app` (relative from current folder)
 
-Replace `cd mobile_app` with the correct path that contains `lib/main.dart`.
+If `flutter run -d web` fails with "No supported devices found":
+
+This means Flutter couldn't enable Chrome for web. Try running with Linux desktop instead:
+
+```bash
+flutter run -d linux
+```
+
+Or if Chrome is installed, enable web manually:
+
+```bash
+flutter config --enable-web
+flutter run -d chrome
+```
 
 ### Preview in Browser (No Local Installation)
 
