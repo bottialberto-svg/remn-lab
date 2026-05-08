@@ -154,7 +154,21 @@ INSERT INTO messages (content) VALUES ('Hello from Supabase!');
 
 ### Deploy the Edge Function
 
-**Option 1: Via Supabase CLI**
+**Option 1: Via Dashboard (No CLI needed)**
+
+The easiest way - no installation required:
+
+1. Go to [Supabase Dashboard](https://supabase.com/dashboard)
+2. Select your project → **Edge Functions**
+3. Click **New Edge Function**
+4. Name it `messages`
+5. Change runtime to **Python**
+6. Copy the code from `supabase/functions/messages/index.py`
+7. Click **Deploy**
+
+**Option 2: Via Supabase CLI**
+
+(Requires Supabase CLI installed)
 
 ```bash
 # Link to your Supabase project
@@ -167,14 +181,6 @@ supabase functions deploy messages
 supabase secrets set SUPABASE_URL=https://YOUR_PROJECT.supabase.co
 supabase secrets set SUPABASE_SERVICE_KEY=YOUR_SERVICE_KEY
 ```
-
-**Option 2: Via Dashboard**
-
-1. Go to Supabase Dashboard → Edge Functions
-2. Click "New Edge Function"
-3. Name it `messages`
-4. Copy the code from `supabase/functions/messages/index.py`
-5. Deploy
 
 **Option 3: Via GitHub Actions**
 
@@ -252,3 +258,41 @@ supabase/
 - [Supabase Edge Functions Docs](https://supabase.com/docs/guides/functions)
 - [Supabase Python SDK](https://supabase.com/docs/reference/python/start)
 - [GitHub Codespaces Documentation](https://docs.github.com/en/codespaces)
+
+## Flutter + Supabase Configuration
+
+### Configure API Connection
+
+1. **Get your Supabase credentials:**
+   - Go to Supabase Dashboard → Project Settings → API
+   - Copy the `Project URL` (anon key)
+
+2. **Edit the Flutter app:**
+   
+   Open `mobile_app/lib/main.dart` and replace the placeholders:
+
+   ```dart
+   static const String _apiUrl = 'https://YOUR_PROJECT.supabase.co/functions/v1/messages';
+   static const String _apiKey = 'YOUR_ANON_KEY';
+   ```
+
+3. **Set up the database:**
+
+   In Supabase SQL Editor:
+   ```sql
+   CREATE TABLE messages (
+     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+     content TEXT NOT NULL,
+     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+   );
+
+   INSERT INTO messages (content) VALUES ('Hello from Supabase!');
+   ```
+
+4. **Run the app:**
+
+   ```bash
+   cd mobile_app
+   flutter pub get
+   flutter run -d web-server --web-port 8080
+   ```
