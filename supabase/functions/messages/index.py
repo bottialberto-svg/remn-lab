@@ -11,19 +11,19 @@ def main(req: Request, res: Response) -> Response:
             status_code=405
         )
     
-    # Get Supabase URL and key from environment
+    # Get Supabase URL and key from environment (avoid SUPABASE_ prefix)
     supabase_url = req.headers.get("x-supabase-url")
     supabase_key = req.headers.get("x-supabase-api-key")
     
     # Fallback to environment variables if headers not set
     if not supabase_url:
-        supabase_url = req.env.get("SUPABASE_URL")
+        supabase_url = req.env.get("DB_URL")
     if not supabase_key:
-        supabase_key = req.env.get("SUPABASE_SERVICE_KEY")
+        supabase_key = req.env.get("DB_SERVICE_KEY")
     
     if not supabase_url or not supabase_key:
         return res.json(
-            {"error": "Missing Supabase configuration. Set SUPABASE_URL and SUPABASE_SERVICE_KEY secrets."},
+            {"error": "Missing configuration. Set DB_URL and DB_SERVICE_KEY secrets."},
             status_code=500
         )
     
