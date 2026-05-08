@@ -154,7 +154,21 @@ INSERT INTO messages (content) VALUES ('Hello from Supabase!');
 
 ### Deploy the Edge Function
 
-**Option 1: Via Supabase CLI**
+**Option 1: Via Dashboard (No CLI needed)**
+
+The easiest way - no installation required:
+
+1. Go to [Supabase Dashboard](https://supabase.com/dashboard)
+2. Select your project → **Edge Functions**
+3. Click **New Edge Function**
+4. Name it `messages`
+5. Change runtime to **Python**
+6. Copy the code from `supabase/functions/messages/index.py`
+7. Click **Deploy**
+
+**Option 2: Via Supabase CLI**
+
+(Requires Supabase CLI installed)
 
 ```bash
 # Link to your Supabase project
@@ -167,14 +181,6 @@ supabase functions deploy messages
 supabase secrets set SUPABASE_URL=https://YOUR_PROJECT.supabase.co
 supabase secrets set SUPABASE_SERVICE_KEY=YOUR_SERVICE_KEY
 ```
-
-**Option 2: Via Dashboard**
-
-1. Go to Supabase Dashboard → Edge Functions
-2. Click "New Edge Function"
-3. Name it `messages`
-4. Copy the code from `supabase/functions/messages/index.py`
-5. Deploy
 
 **Option 3: Via GitHub Actions**
 
