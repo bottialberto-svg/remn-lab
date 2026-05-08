@@ -38,7 +38,19 @@ The app is located in the `mobile_app` folder.
    flutter run -d web --web-port 8080
    ```
    
-   > **Important:** Always run `flutter run` from `/workspaces/remn-lab/mobile_app` (the absolute path may be required in some environments).
+   If `flutter run -d web` fails with "Target file lib/main.dart not found", check the workspace path:
+
+```bash
+pwd                    # Shows current directory
+ls -la               # Lists files in current directory
+ls mobile_app/lib/    # Checks if mobile_app folder has lib/
+```
+
+The correct path may be one of:
+- `/workspace/project/remn-lab/mobile_app` (absolute path)
+- `../mobile_app` (relative from current folder)
+
+Replace `cd mobile_app` with the correct path that contains `lib/main.dart`.
 
 ### Preview in Browser (No Local Installation)
 
