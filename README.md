@@ -54,16 +54,17 @@ If you can't use the web device or Linux desktop, you can still build the web ap
 
 ### Correct Device: Use `chrome` instead of `web`
 
- Flutter shows "Chrome (web)" as a device, so use:
+Flutter shows "Chrome (web)" as a device. However, in Codespaces you may need to run as root:
 
 ```bash
+export CHROME_FLAGS="--no-sandbox --headless --disable-gpu --disable-software-rasterizer"
 flutter run -d chrome --web-port 8080
 ```
 
-Or run with Linux desktop:
+Or use web-server for a simpler approach:
 
 ```bash
-flutter run -d linux
+flutter run -d web-server --web-port 8080
 ```
 
 ### Preview in Browser (No Local Installation)
