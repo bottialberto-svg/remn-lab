@@ -52,23 +52,19 @@ The correct path may be one of:
 
 If you can't use the web device or Linux desktop, you can still build the web app and serve it manually:
 
-### Alternative: Build Web and Serve Manually
+### Correct Device: Use `chrome` instead of `web`
 
-1. **Build the web app:**
-   ```bash
-   flutter build web --release
-   ```
+ Flutter shows "Chrome (web)" as a device, so use:
 
-2. **Serve with Python:**
-   ```bash
-   cd build/web
-   python3 -m http.server 8080
-   ```
+```bash
+flutter run -d chrome --web-port 8080
+```
 
-3. **Open in browser:**
-   - Click the "Ports" tab in Codespaces
-   - Forward port 8080
-   - Click the link to open in browser
+Or run with Linux desktop:
+
+```bash
+flutter run -d linux
+```
 
 ### Preview in Browser (No Local Installation)
 
