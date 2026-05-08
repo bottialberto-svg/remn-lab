@@ -1,9 +1,15 @@
 from supabase import create_client, Client
-from pydantic import BaseModel
 
 
 def main(req: Request, res: Response) -> Response:
     """Supabase Edge Function - GET messages from database"""
+    
+    # Only handle GET requests
+    if req.method != "GET":
+        return res.json(
+            {"error": "Method not allowed. Use GET."},
+            status_code=405
+        )
     
     # Get Supabase URL and key from environment
     supabase_url = req.headers.get("x-supabase-url")
@@ -17,7 +23,7 @@ def main(req: Request, res: Response) -> Response:
     
     if not supabase_url or not supabase_key:
         return res.json(
-            {"error": "Missing Supabase configuration"},
+            {"error": "Missing Supabase configuration. Set SUPABASE_URL and SUPABASE_SERVICE_KEY secrets."},
             status_code=500
         )
     
@@ -28,6 +34,9 @@ def main(req: Request, res: Response) -> Response:
         # Fetch messages from database
         response = supabase.table("messages").select("*").execute()
         
+        # Log success
+        print(f"Fetched {len(response.data)} messages successfully")
+        
         # Return the messages
         return res.json({
             "messages": response.data,
@@ -35,7 +44,9 @@ def main(req: Request, res: Response) -> Response:
         })
         
     except Exception as e:
+        # Log the error
+        print(f"Error fetching messages: {str(e)}")
         return res.json(
-            {"error": str(e)},
+            {"error": "Failed to fetch messages", "details": str(e)},
             status_code=500
         )
